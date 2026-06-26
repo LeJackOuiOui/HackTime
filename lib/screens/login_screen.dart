@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'timer_screen.dart';
+import '../provider/timer_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -82,6 +84,8 @@ class _LoginScreenState extends State<LoginScreen>
     await Future.delayed(const Duration(milliseconds: 900));
 
     if (!mounted) return;
+
+    context.read<TimerProvider>().reset();
 
     // Navega reemplazando la pantalla (no puede volver al login con Back)
     Navigator.of(context).pushReplacement(

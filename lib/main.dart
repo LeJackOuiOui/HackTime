@@ -5,6 +5,8 @@ import 'provider/timer_provider.dart';
 import 'screens/timer_screen.dart';
 import 'screens/login_screen.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -28,11 +30,11 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: themeProvider.themeMode,
+            navigatorKey: navigatorKey,
             home: const LoginScreen(),
-
             builder: (context, child) {
               return SecurityScreen(child: child!);
-            }, // pantalla directa, sin go_router
+            },
           );
         },
       ),
