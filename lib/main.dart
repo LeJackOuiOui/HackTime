@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'themes/app_theme.dart';
+import 'provider/timer_provider.dart';
+import 'screens/timer_screen.dart';
+import 'screens/login_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -9,11 +15,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sistema de Seguridad',
-      theme: ThemeData(useMaterial3: true),
-      home: const SecurityScreen(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => TimerProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return MaterialApp(
+            title: 'HackTime',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeProvider.themeMode,
+            home: const LoginScreen(), // pantalla directa, sin go_router
+          );
+        },
+      ),
     );
   }
 }
@@ -113,21 +131,17 @@ class _SecurityScreenState extends State<SecurityScreen>
                   const SizedBox(height: 40), // Espacio arriba del botón
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Colors.white,
+                      backgroundColor: Colors.white,
                       foregroundColor: Colors.redAccent,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 28,
                         vertical: 14,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          12,
-                        ),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     onPressed: () {
-                      
                       setState(() {
                         _sesionFallida = false;
                       });
@@ -150,3 +164,4 @@ class _SecurityScreenState extends State<SecurityScreen>
     );
   }
 }
+
