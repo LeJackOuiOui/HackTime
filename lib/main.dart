@@ -13,13 +13,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Sistema de Seguridad',
       theme: ThemeData(useMaterial3: true),
-      home: const SecurityScreen(),
+      home: const SecurityScreen(child: LoginScreen()),
     );
   }
 }
 
 class SecurityScreen extends StatefulWidget {
-  const SecurityScreen({super.key});
+  final Widget child;
+  const SecurityScreen({super.key, required this.child});
 
   @override
   State<SecurityScreen> createState() => _SecurityScreenState();
@@ -61,6 +62,7 @@ class _SecurityScreenState extends State<SecurityScreen>
     return Scaffold(
       body: Stack(
         children: [
+          widget.child,
           const Center(
             child: Text(
               'Tu aplicación está corriendo normalmente aquí...',
@@ -109,7 +111,6 @@ class _SecurityScreenState extends State<SecurityScreen>
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
 
-                  // --- AQUÍ ESTÁ EL NUEVO BOTÓN PARA REINICIAR LA SESIÓN ---
                   const SizedBox(height: 40), // Espacio arriba del botón
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
@@ -141,7 +142,6 @@ class _SecurityScreenState extends State<SecurityScreen>
                       ),
                     ),
                   ),
-                  // --------------------------------------------------------
                 ],
               ),
             ),
