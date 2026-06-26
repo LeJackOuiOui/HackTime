@@ -5,6 +5,8 @@ import 'provider/timer_provider.dart';
 import 'screens/timer_screen.dart';
 import 'screens/login_screen.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -15,11 +17,27 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sistema de Seguridad',
-      theme: ThemeData(useMaterial3: true),
-      home: const SecurityScreen(child: LoginScreen()),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => TimerProvider()),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return MaterialApp(
+            title: 'HackTime',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeProvider.themeMode,
+            navigatorKey: navigatorKey,
+            home: const LoginScreen(),
+            builder: (context, child) {
+              return SecurityScreen(child: child!);
+            },
+          );
+        },
+      ),
     );
   }
 }
