@@ -28,7 +28,11 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: themeProvider.themeMode,
-            home: const LoginScreen(), // pantalla directa, sin go_router
+            home: const LoginScreen(),
+
+            builder: (context, child) {
+              return SecurityScreen(child: child!);
+            }, // pantalla directa, sin go_router
           );
         },
       ),
