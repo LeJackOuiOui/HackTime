@@ -134,6 +134,13 @@ class _SecurityScreenState extends State<SecurityScreen>
                       setState(() {
                         _sesionFallida = false;
                       });
+
+                      Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                        Route<dynamic> route) => false,
+                      );
                     },
                     icon: const Icon(Icons.refresh_rounded),
                     label: const Text(
